@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/layouts/layout">
+    <body>
+        <div layout:fragment="title">
+            <h1>Manage Users</h1>
+        </div>
+        <div layout:fragment="content">
+            <p class="lead">This is a paragraph from content page 1</p>
+            <div id="users"></div>
+            <script id="users-template" type="x-template">
+                <div class="user-list">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Is Account Non Expired</th>
+                            <th>Is Account Non Locked</th>
+                            <th>Is Credentials Non Expired</th>
+                            <th><span class="glyphicon glyphicon-pencil"></span></th>
+                        </tr>
+                        {{#rows}}
+                        <tr>
+                            <td>{{username}}</td>
+                            <td>{{accountNonExpired}}</td>
+                            <td>{{accountNonLocked}}</td>
+                            <td>{{credentialsNonExpired}}</td>
+                            <td><a class="btn btn-default btn-sm pull-right" on-click="get" href="#formAnchor"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        </tr>
+                        {{/rows}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Add user
+                        <a class="btn btn-default btn-xs pull-right" on-click="clean">Clean <span class="glyphicon glyphicon-refresh" title="Clean"></span></a>
+                    </div>
+                    <div class="panel-body">
+                        <a id="formAnchor"></a>
+                        <form role="form" on-submit="submit">
+                            <input type="hidden" id="_links" value="{{_links.self.href}}"/>
+
+                            <div class="form-group">
+                                <label form="author">User name:</label>
+                                <input type="text" id="author" value="{{username}}" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label form="author">Password:</label>
+                                <input type="password" id="password" value="{{password}}" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="accountNonExpired" checked="{{accountNonExpired}}" value="{{accountNonExpired}}"/>
+                                    Is Account Non Expired
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="accountNonLocked" checked="{{accountNonLocked}}" value="{{accountNonLocked}}"/>
+                                    Is Account Non Locked
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="credentialsNonExpired" checked="{{credentialsNonExpired}}" value="{{credentialsNonExpired}}"/>
+                                    Is Credentials Non Expired
+                                </label>
+                            </div>
+                            {{#authorities != null}}
+                            <div class="form-group">
+                                <label form="authorities">Authorities list:</label>
+                                <div >
+                                    <select name="authorities" decorator="multiselect: 'authorities'" id="authorities" class="multiselect" multiple="multiple" title-key="authority">
+                                    </select>
+                                </div>
+                            </div>
+                            {{/authorities != null}}
+
+                            <button type="submit" class="btn btn-default">Submit user</button>
+                            {{#_links.self.href}}
+                            <button type="button" class="btn btn-default" on-click="delete">Remove user</button>
+                            {{/_links.self.href}}
+                        </form>
+                    </div>
+                </div>
+            </script>
+
+        </div>
+        <footer>
+            <p layout:fragment="custom-footer">This is some footer content from content page 1</p>
+            <section layout:fragment="custom-js">
+                <script src="../../../webapp/js/admin/users.js" th:src="@{../js/admin/users.js}"></script>
+            </section>
+        </footer>
+    </body>
+</html>

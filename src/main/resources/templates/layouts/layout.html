@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <!--<link rel="icon" href="../../favicon.ico">-->
+
+    <title>Sticky Footer Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../webapp/css/bootstrap/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.min.css}"/>
+
+    <!-- Custom styles for this template -->
+    <link href="../../../webapp/css/sticky-footer.css" rel="stylesheet" th:href="@{/css/sticky-footer.css}" />
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../../webapp/lib/ie10-viewport-bug-workaround.js" th:src="@{/lib/ie10-viewport-bug-workaround.js}"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="lib/html5shiv.min.js"></script>
+    <script src="lib/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header" layout:fragment="title">
+        <h1 >Sticky footer</h1>
+    </div>
+    <div layout:fragment="content">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</div>
+</div>
+<div class="footer">
+    <div class="container">
+        <p layout:fragment="custom-footer" class="text-muted">Place sticky footer content here.</p>
+    </div>
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>

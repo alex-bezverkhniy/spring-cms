@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <!--<link rel="icon" href="../../favicon.ico">-->
+
+    <title>Sticky Footer Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../../webapp/css/bootstrap/bootstrap.min.css" rel="stylesheet" th:href="@{../css/bootstrap/bootstrap.min.css}"/>
+    <link href="../../../../webapp/css/bootstrap/bootstrap-multiselect.css" rel="stylesheet" th:href="@{../css/bootstrap/bootstrap-multiselect.css}"/>
+
+    <!-- Custom styles for this template -->
+    <link href="../../../../webapp/css/sticky-footer.css" rel="stylesheet" th:href="@{../css/sticky-footer.css}" />
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../../../webapp/lib/ie10-viewport-bug-workaround.js" th:src="@{../lib/ie10-viewport-bug-workaround.js}"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../lib/html5shiv.min.js"></script>
+    <script src="../lib/respond.min.js"></script>
+    <![endif]-->
+
+    <style rel="stylesheet">
+        .sidebar {
+            background-color: #f5f5f5;
+            border-right: 1px solid #eee;
+            bottom: 0;
+            display: block;
+            left: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 20px;
+            position: fixed;
+            top: 51px;
+            z-index: 1000;
+        }
+        .nav-sidebar {
+            margin-bottom: 20px;
+            margin-left: -20px;
+            margin-right: -21px;
+        }
+        .nav-sidebar > li > a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
+            background-color: #428bca;
+            color: #fff;
+        }
+        .main {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        .main .page-header {
+            margin-top: 80;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <input class="form-control" placeholder="Search..." type="text" />
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" ng-controller="headerController">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="/admin">Main</a></li>
+                <li><a href="users.html">Users</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Export</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="">Nav item</a></li>
+                <li><a href="">Nav item again</a></li>
+                <li><a href="">One more nav</a></li>
+                <li><a href="">Another nav item</a></li>
+                <li><a href="">More navigation</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="">Nav item again</a></li>
+                <li><a href="">One more nav</a></li>
+                <li><a href="">Another nav item</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="margin-top:40px;">
+            <div class="page-header" layout:fragment="title">
+                <h1 >Sticky footer</h1>
+            </div>
+
+            <div layout:fragment="content">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="container">
+        <p layout:fragment="custom-footer" class="text-muted">Place sticky footer content here.</p>
+    </div>
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<script src="../../../../webapp/lib/jquery/jquery-1.10.2.min.js" th:src="@{../lib/jquery/jquery-1.10.2.min.js}"></script>
+<script src="../../../../webapp/lib/bootstrap/bootstrap.min.js" th:src="@{../lib/bootstrap/bootstrap.min.js}"></script>
+<script src="../../../../webapp/lib/bootstrap/bootstrap-multiselect.js" th:src="@{../lib/bootstrap/bootstrap-multiselect.js}"></script>
+<script src="../../../../webapp/lib/ractive/ractive.js" th:src="@{../lib/ractive/ractive.js}"></script>
+<script src="../../../../webapp/lib/ractive/showdown.js" th:src="@{../lib/ractive/showdown.js}"></script>
+<script src="../../../../webapp/js/admin/hateoas-ractive.js" th:src="@{../js/admin/hateoas-ractive.js}"></script>
+<!-- Placed at the end of the document so the pages load faster -->
+<section layout:fragment="custom-js">
+
+</section>
+</body>
+</html>

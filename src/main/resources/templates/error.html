@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+<body onload="document.form.username.focus();">
+<div layout:fragment="title">
+    <h1>Error</h1>
+</div>
+<div layout:fragment="content">
+    <h1 th:text="${title}">Title</h1>
+    <h4 th:text="${message}" class="alert bg-danger bold">Fake content</h4>
+    <div class="alert bg-danger bold">
+        There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).
+    </div>
+
+</div>
+<footer>
+    <p layout:fragment="custom-footer">This is some footer content from content page 1</p>
+</footer>
+</body>
+</html>
