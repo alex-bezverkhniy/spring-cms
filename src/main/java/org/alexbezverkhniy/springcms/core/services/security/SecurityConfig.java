@@ -52,24 +52,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                //.antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,   "/users/**").hasRole("ADMIN")
-
-                .antMatchers(HttpMethod.PUT,    "/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,     "/lib/**", "/js/**", "/img/**", "/css/**", "/fonts/**").permitAll()
-                .antMatchers(HttpMethod.POST,    "/login/**").permitAll()
-
-/*
-                .antMatchers(HttpMethod.POST,    "/**", "/js/**", "/img/**", "/css/**", "/fonts/**").permitAll()
-                .antMatchers(HttpMethod.PUT,     "/**", "/js/**", "/img/**", "/css/**", "/fonts/**").permitAll()
-                .antMatchers(HttpMethod.DELETE,  "/**", "/js/**", "/img/**", "/css/**", "/fonts/**").permitAll()
-*/
+                .antMatchers("/", "/index.html").permitAll()
+                .antMatchers(HttpMethod.PUT,    "/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,   "/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET,    "/lib/**", "/js/**", "/img/**", "/css/**", "/fonts/**").permitAll()
+                .antMatchers(HttpMethod.POST,   "/login/**").permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").failureUrl("/login?error").permitAll();
+                    .loginPage("/login")
+                    .failureUrl("/login?error").permitAll()
+                    .defaultSuccessUrl("/admin")
+                .and()
+                .logout().logoutSuccessUrl("/");
+
     }
 
     @Override

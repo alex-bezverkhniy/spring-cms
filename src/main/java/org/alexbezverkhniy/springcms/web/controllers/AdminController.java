@@ -3,6 +3,9 @@ package org.alexbezverkhniy.springcms.web.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,6 +27,19 @@ public class AdminController {
     @Secured("ADMIN")
     @RequestMapping("admin/**.html")
     public String htmlPages(HttpServletRequest request){
+        log.info("url: " + request.getRequestURL().toString());
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(auth != null) {
+            for(GrantedAuthority r : auth.getAuthorities()){
+                log.info("r: "+r.getAuthority());
+            }
+        }
+
+        if(request.isUserInRole("ROLE_ADMIN")) {
+            log.info("ROLE_ADMIN");
+        }
         return ControllersUtils.mapHtmlPage(request);
     }
 }

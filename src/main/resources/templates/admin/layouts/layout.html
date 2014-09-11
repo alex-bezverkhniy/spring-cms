@@ -84,10 +84,20 @@
                 <li><a href="#">Settings</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="#">Help</a></li>
+
+                <li class="dropdown">
+                    <a href="#" th:inline="text" class="dropdown-toggle" data-toggle="dropdown"><b>[[${#httpServletRequest.remoteUser}]]</b> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </li>
             </ul>
+            <!--
             <form class="navbar-form navbar-right">
                 <input class="form-control" placeholder="Search..." type="text" />
             </form>
+            -->
+            <p th:inline="text" class="navbar-text text-muted navbar-right">[[${#httpServletRequest.remoteUser}]]</p>
         </div>
     </div>
 </div>
