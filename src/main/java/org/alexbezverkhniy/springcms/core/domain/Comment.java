@@ -3,39 +3,53 @@ package org.alexbezverkhniy.springcms.core.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by bezverkhniy_10534 on 13/08/2014.
  */
 @Entity
-public class Comment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class Comment extends BaseEntity<Long> implements Serializable {
 
     private String title;
 
-    //private String author;
     @Column(length = 512)
     private String text;
 
     @ManyToOne
     @JsonBackReference
     @JoinTable(
-            name = "USER_COMMENTS",
+            name = "AUTHOR_COMMENTS",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private User author;
+    private Author author;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinTable(
+            name = "POST_COMMENTS",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id")
+    )
+    private Post post;
+
 
     public Comment() {
     }
-
-    public Comment(User author, String title, String text) {
+    public Comment(Author author, String title, String text) {
         this.author = author;
         this.text = text;
         this.title = title;
+    }
+
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public String getTitle() {
@@ -46,30 +60,14 @@ public class Comment {
         this.title = title;
     }
 
-    public User getAuthor() {
-        return author;
+    public Post getPost() {
+        return post;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-/*
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-*/
     public String getText() {
         return text;
     }

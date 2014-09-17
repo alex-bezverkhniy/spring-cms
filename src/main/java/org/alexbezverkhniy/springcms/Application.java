@@ -1,12 +1,8 @@
 package org.alexbezverkhniy.springcms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.alexbezverkhniy.springcms.core.domain.Authority;
-import org.alexbezverkhniy.springcms.core.domain.Comment;
-import org.alexbezverkhniy.springcms.core.domain.User;
-import org.alexbezverkhniy.springcms.core.repositories.AuthorityRepository;
-import org.alexbezverkhniy.springcms.core.repositories.CommentRepository;
-import org.alexbezverkhniy.springcms.core.repositories.UserRepository;
+import org.alexbezverkhniy.springcms.core.domain.*;
+import org.alexbezverkhniy.springcms.core.repositories.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -17,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
+import java.util.Date;
 
 @Configuration
 @ComponentScan(basePackages = {"org.alexbezverkhniy.springcms.core.services.security", "org.alexbezverkhniy.springcms.core.repositories", "org.alexbezverkhniy.springcms.web.controllers"})
@@ -57,15 +54,16 @@ public class Application  extends WebMvcConfigurerAdapter {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class);
 
         // Initial data
-        UserRepository userRepository = context.getBean(UserRepository.class);
+        //UserRepository userRepository = context.getBean(UserRepository.class);
         AuthorityRepository authorityRepository = context.getBean(AuthorityRepository.class);
-
         CommentRepository commentRepository = context.getBean(CommentRepository.class);
+        PostRepository postRepository = context.getBean(PostRepository.class);
+        AuthorRepository authorRepository = context.getBean(AuthorRepository.class);
 
         Authority adminRole;
         Authority userRole;
-        User user;
-        User admin;
+        Author user;
+        Author admin;
 
         adminRole = new Authority();
         adminRole.setAuthority("ADMIN");
@@ -75,14 +73,14 @@ public class Application  extends WebMvcConfigurerAdapter {
         userRole.setAuthority("USER");
         authorityRepository.save(userRole);
 
-        user = new User();
+        user = new Author();
         user.setUsername("alexhustas");
         user.setPassword("alexhustas");
         user.addAuthority(userRole);
         user.addAuthority(adminRole);
-        userRepository.save(user);
+        authorRepository.save(user);
 
-        admin = new User();
+        admin = new Author();
         admin.setUsername("admin");
         admin.setPassword("admin");
         admin.setEnabled(true);
@@ -91,20 +89,20 @@ public class Application  extends WebMvcConfigurerAdapter {
         admin.setCredentialsNonExpired(true);
         admin.addAuthority(adminRole);
         admin.addAuthority(userRole);
-        userRepository.save(admin);
+        authorRepository.save(admin);
 
 
-        user = new User();
+        user = new Author();
         user.setUsername("bob");
         user.setPassword("bob");
         user.addAuthority(userRole);
-        userRepository.save(user);
+        authorRepository.save(user);
 
-        user = new User();
+        user = new Author();
         user.setUsername("jack");
         user.setPassword("jack");
         user.addAuthority(userRole);
-        userRepository.save(user);
+        authorRepository.save(user);
 
         Comment comment1 = new Comment(user, "jack comment", "First comment");
         commentRepository.save(comment1);
@@ -112,9 +110,9 @@ public class Application  extends WebMvcConfigurerAdapter {
         Comment comment2 = new Comment(user, "jack comment", "Second comment");
         commentRepository.save(comment2);
 
-        user.addComment(comment1);
-        user.addComment(comment2);
-        userRepository.save(user);
+        //user.addComment(comment1);
+        //user.addComment(comment2);
+        authorRepository.save(user);
 
         Comment comment3 = new Comment(admin, "Admin comment", "**On** - Used to express a surface of something. [see more...](http://www.talkenglish.com/Grammar/prepositions-on-at-in.aspx)");
         commentRepository.save(comment3);
@@ -122,9 +120,22 @@ public class Application  extends WebMvcConfigurerAdapter {
         Comment comment4 = new Comment(admin, "Admin comment", "**Best way** to improve vocabulary [lingualeo.com](http://lingualeo.com)");
         commentRepository.save(comment4);
 
-        admin.addComment(comment3);
-        admin.addComment(comment4);
-        userRepository.save(admin);
+        //admin.addComment(comment3);
+        //admin.addComment(comment4);
+        authorRepository.save(admin);
+
+
+        admin.setRegistrationDate(new Date());
+        authorRepository.save(admin);
+
+        Post post1 = new Post();
+        post1.setTitle("Hello");
+        post1.setText("Hi there!");
+        post1.setAuthor(admin);
+        postRepository.save(post1);
+
+        post1.addComment(comment1);
+        postRepository.save(post1);
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {

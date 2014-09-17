@@ -18,7 +18,8 @@
                             <th>Is Account Non Expired</th>
                             <th>Is Account Non Locked</th>
                             <th>Is Credentials Non Expired</th>
-                            <th><span class="glyphicon glyphicon-pencil"></span></th>
+                            <th>Is Enabled</th>
+                            <th><span class="glyphicon glyphicon-pencil pull-right"></span></th>
                         </tr>
                         {{#rows}}
                         <tr>
@@ -26,6 +27,7 @@
                             <td>{{accountNonExpired}}</td>
                             <td>{{accountNonLocked}}</td>
                             <td>{{credentialsNonExpired}}</td>
+                            <td>{{enabled}}</td>
                             <td><a class="btn btn-default btn-sm pull-right" on-click="get" href="#formAnchor"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         </tr>
                         {{/rows}}
@@ -68,7 +70,12 @@
                                     Is Credentials Non Expired
                                 </label>
                             </div>
-                            {{#authorities != null}}
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="enabled" checked="{{enabled}}" value="{{enabled}}"/>
+                                    Is enabled
+                                </label>
+                            </div>
                             <div class="form-group">
                                 <label form="authorities">Authorities list:</label>
                                 <div >
@@ -76,7 +83,6 @@
                                     </select>
                                 </div>
                             </div>
-                            {{/authorities != null}}
 
                             <button type="submit" class="btn btn-default">Submit user</button>
                             {{#_links.self.href}}

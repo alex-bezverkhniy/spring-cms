@@ -20,6 +20,7 @@ var myRactive = new HATEOASRactive({
 $(document).ready(function(){
     $('#users-template').hide();
     myRactive.restURL = '/users';
+    myRactive.modelListName = 'authors';
     myRactive.fire( 'init' );
 
 });

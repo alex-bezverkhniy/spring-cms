@@ -16,7 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  */
 @Entity
-public class User implements UserDetails, Serializable {
+@Table(name = "USERS")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User  implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,24 +38,12 @@ public class User implements UserDetails, Serializable {
     @ManyToMany
     private Set<Authority> authorities;
 
-    @OneToMany
-    @JoinTable(
-            name = "USER_COMMENTS",
-            joinColumns = @JoinColumn(name = "user_id", unique = false),
-            inverseJoinColumns = @JoinColumn(name = "comment_id", unique = false)
-    )
-    private Set<Comment> comments;
+
 
     @Type(type = "numeric_boolean")
     private boolean enabled;
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
 
     public void setAccountNonExpired(boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
@@ -114,13 +104,6 @@ public class User implements UserDetails, Serializable {
         authorities.add(authority);
     }
 
-    public void addComment(Comment comment) {
-        if(comments == null) {
-            comments = new HashSet<Comment>();
-        }
-
-        comments.add(comment);
-    }
 
     public String getPassword() {
         return password;
