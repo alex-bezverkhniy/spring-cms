@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin/layouts/layout">
+    <body>
+        <div layout:fragment="title">
+            <h1>Manage Posts</h1>
+        </div>
+        <div layout:fragment="content">
+            <p class="lead">Posts</p>
+            <div id="posts"></div>
+            <script id="posts-template" type="x-template">
+                <div class="post-list">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th>Title</th>
+                            <th>Text</th>
+                            <th><span class="glyphicon glyphicon-pencil pull-right"></span></th>
+                        </tr>
+                        {{#rows}}
+                        <tr>
+                            <td>{{title}}</td>
+                            <td>{{text}}</td>
+                            <td><a class="btn btn-default btn-sm pull-right" title="{{_links.self.href}}" on-click="get" href="#formAnchor"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        </tr>
+                        {{/rows}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Add user
+                        <a class="btn btn-default btn-xs pull-right" on-click="clean">Clean <span class="glyphicon glyphicon-refresh" title="Clean"></span></a>
+                    </div>
+                    <div class="panel-body">
+                        <a id="formAnchor"></a>
+                        <form role="form" on-submit="submit">
+                            <input type="hidden" id="_links" value="{{_links.self.href}}"/>
+
+                            <div class="form-group">
+                                <label form="title">Title:</label>
+                                <input type="text" id="title" value="{{title}}" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="text">Text</label>
+                                <textarea id="text" class="form-control" rows="3" value="{{text}}"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label form="author">Author:</label>
+                                <div>
+                                    <select name="author" decorator="multiselect: 'author'" id="author" class="multiselect" title-key="username">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label form="comments">Comments list:</label>
+                                <div>
+                                    <select name="comments" decorator="multiselect: 'comments'" id="comments" class="multiselect" multiple="multiple" title-key="title">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-default">Submit post</button>
+                            {{#_links.self.href}}
+                            <button type="button" class="btn btn-default" on-click="delete">Remove post</button>
+                            {{/_links.self.href}}
+                        </form>
+                    </div>
+                </div>
+            </script>
+
+        </div>
+        <footer>
+            <p layout:fragment="custom-footer">This is some footer content from content page 1</p>
+            <section layout:fragment="custom-js">
+                <script src="../../../webapp/js/admin/posts.js" th:src="@{../js/admin/posts.js}"></script>
+            </section>
+        </footer>
+    </body>
+</html>

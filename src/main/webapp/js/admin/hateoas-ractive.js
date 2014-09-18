@@ -6,7 +6,12 @@ multiselectDec = function(node, id){
     var allList, selectedList;
     if(id !== undefined && node.data !== undefined) {
 
-        selectedList = node.data[id];
+        if(node.data != null) {
+            selectedList = node.data[id];
+        } else {
+            selectedList = new Array();
+        }
+
         // Try to find data
         if(selectedList == undefined) {
             selectedList = node.data[id.substring(0, id.length-1)];
@@ -44,7 +49,6 @@ multiselectDec = function(node, id){
                 ml.multiselect('select', selectedList[i]._links.self.href);
             }
         } else {
-            //ml = $(node.selector.substring(0,node.selector.length-1)).multiselect();
             if(selectedList._links) {
                 ml.multiselect('select', selectedList._links.self.href);
             }
@@ -114,8 +118,8 @@ HATEOASRactive = Ractive.extend({
         if(!node.length) {
             node = $('#'+key.substring(0, key.length-1));
         }
-        node.find('option').remove().end()
-        this.decorators.multiselect('rebuild');
+        node.find('option').remove().end();
+        node.data = null;
         // Refresh multiselect
         this.decorators.multiselect(node, key);
     },
