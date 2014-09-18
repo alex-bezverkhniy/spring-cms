@@ -6,11 +6,7 @@ multiselectDec = function(node, id){
     var allList, selectedList;
     if(id !== undefined && node.data !== undefined) {
 
-        if(node.data != null) {
-            selectedList = node.data[id];
-        } else {
-            selectedList = new Array();
-        }
+        selectedList = node.data[id];
 
         // Try to find data
         if(selectedList == undefined) {
@@ -20,9 +16,13 @@ multiselectDec = function(node, id){
         allList = node.data[id+'All'];
         // Try to find data
         if(allList == undefined) {
-
             allList = node.data[id+'sAll'];
         }
+    }
+
+    if(node.cleanIt || node.data == undefined) {
+        selectedList = new Array();
+        allList = new Array();
     }
 
     if(allList !== undefined && selectedList !== undefined) {
@@ -40,7 +40,6 @@ multiselectDec = function(node, id){
             dataList[i] = {label: allList[i][titleKey], value: allList[i]._links.self.href};
         }
 
-
         var ml = $(node).multiselect();
         ml.multiselect('dataprovider', dataList);
 
@@ -53,8 +52,6 @@ multiselectDec = function(node, id){
                 ml.multiselect('select', selectedList._links.self.href);
             }
         }
-
-
 
 
         ml.multiselect('setOptions', {
@@ -101,7 +98,7 @@ HATEOASRactive = Ractive.extend({
 
     },
 
-    refreshMultiselect: function(key) {
+    refreshMultiselect: function(key, cleanIt) {
         var node = $('#'+key);
 
         if(!node.length) {
@@ -109,20 +106,24 @@ HATEOASRactive = Ractive.extend({
         }
 
         node.data = this.data;
+        node.cleanIt = cleanIt;
 
         // Refresh multiselect
         this.decorators.multiselect(node, key);
     },
+
     cleanMultiselect: function(key) {
         var node = $('#'+key);
         if(!node.length) {
             node = $('#'+key.substring(0, key.length-1));
         }
-        node.find('option').remove().end();
-        node.data = null;
+        //node.find('option').remove().end();
+        node.data = this.data;
+        node.cleanIt = true;
         // Refresh multiselect
         this.decorators.multiselect(node, key);
     },
+
     saveSubResources: function(url, selectedVal, method) {
 
         var subreportsHrefs = '';
@@ -418,7 +419,7 @@ HATEOASRactive = Ractive.extend({
                             for(var k in data._embedded) {
                                 self.set(k+'All', data._embedded[k]);
 
-                                self.refreshMultiselect(k);
+                                self.refreshMultiselect(k, false);
 
                             }
                         }
@@ -438,7 +439,7 @@ HATEOASRactive = Ractive.extend({
                     for(var k in self.data._links) {
                         if(k !== 'self') {
                             if(self.data._links[k].href) {
-                                self.cleanMultiselect(k);
+                                self.refreshMultiselect(k, true);
                             }
                         }
                     }
