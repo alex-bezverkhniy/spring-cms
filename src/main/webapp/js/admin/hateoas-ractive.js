@@ -161,6 +161,7 @@ HATEOASRactive = Ractive.extend({
         });
 
     },
+
     save: function(model, method) {
         // Save subresources
         var arraysNamesResources = new Array();
@@ -223,6 +224,34 @@ HATEOASRactive = Ractive.extend({
         });
     },
 
+    getByUrl: function(url) {
+        var self = this;
+        jQuery.ajax({
+            type: 'GET',
+            url: url,
+
+            success: function(data) {
+                self._bind(data);
+
+                // find association
+                if(data._links) {
+                    for(var k in data._links) {
+                        if(k !== 'self') {
+                            if(data._links[k].href) {
+                                // Get association data
+                                self.fire('get_association', data._links[k].href);
+                            }
+                        }
+                    }
+                }
+            },
+
+            error: function(error) {
+                alert('ERROR statusText: ' + error.statusText + ', status: ' + error.status + ', responseText: ' + error.responseText);
+            }
+        });
+    },
+
     init: function(){
         var self = this;
 
@@ -242,12 +271,18 @@ HATEOASRactive = Ractive.extend({
                             //self.set(varModelName, eval('data._embedded.'+varModelName));
                             self.set('rows', eval('data._embedded.'+varModelName));
                         }
+                        if(data.page){
+                            self.set('page', data.page);
+                        }
+                        if(data._links){
+                            self.set('_links', data._links);
+                        }
                     },
-                         error: function(error) {
-                             alert('ERROR statusText: ' + error.statusText + ', status: ' + error.status + ', responseText: ' + error.responseText);
-                         }
-                     });
-                     self.fire('clean');
+                    error: function(error) {
+                        alert('ERROR statusText: ' + error.statusText + ', status: ' + error.status + ', responseText: ' + error.responseText);
+                    }
+                });
+                self.fire('clean');
             },
 
             submit: function(event){
@@ -307,8 +342,6 @@ HATEOASRactive = Ractive.extend({
                      }
                });
             },
-
-
 
             put: function(event){
                 var self = this;
@@ -447,6 +480,14 @@ HATEOASRactive = Ractive.extend({
                 // reset the form
                 document.activeElement.blur();
                 self._bind();
+            },
+
+            nextPage: function(event) {
+                self.getByUrl(self.data._links.next);
+            },
+
+            prevPage: function(event) {
+                self.getByUrl(self.data._links.prev);
             }
         });
     }

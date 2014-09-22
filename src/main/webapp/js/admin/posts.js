@@ -16,7 +16,11 @@ var myRactive = new HATEOASRactive({
 
 $(document).ready(function(){
     $('#posts-template').hide();
-    myRactive.restURL = '/posts';
+    myRactive.restURL = '/posts?page=0&size=10';
+    myRactive.modelListName = 'posts';
     myRactive.fire( 'init' );
 
+
+    //$('#datatable').hdatatable({url: '/posts?page=0&size=10'});
+    $('#datatable').hdatatable({url: '/posts'});
 });

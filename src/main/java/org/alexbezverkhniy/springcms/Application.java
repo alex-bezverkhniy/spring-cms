@@ -1,8 +1,14 @@
 package org.alexbezverkhniy.springcms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.alexbezverkhniy.springcms.core.domain.*;
-import org.alexbezverkhniy.springcms.core.repositories.*;
+import org.alexbezverkhniy.springcms.core.domain.Author;
+import org.alexbezverkhniy.springcms.core.domain.Authority;
+import org.alexbezverkhniy.springcms.core.domain.Comment;
+import org.alexbezverkhniy.springcms.core.domain.Post;
+import org.alexbezverkhniy.springcms.core.repositories.AuthorRepository;
+import org.alexbezverkhniy.springcms.core.repositories.AuthorityRepository;
+import org.alexbezverkhniy.springcms.core.repositories.CommentRepository;
+import org.alexbezverkhniy.springcms.core.repositories.PostRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -120,6 +126,14 @@ public class Application  extends WebMvcConfigurerAdapter {
         Comment comment4 = new Comment(admin, "Admin comment", "**Best way** to improve vocabulary [lingualeo.com](http://lingualeo.com)");
         commentRepository.save(comment4);
 
+        /*
+        Comment commentN;
+        for(int i = 0; i <= 50; i++) {
+            commentN = new Comment(user, "jack comment " + i, "Comment №"+i);
+            commentRepository.save(commentN);
+        }
+        */
+
         //admin.addComment(comment3);
         //admin.addComment(comment4);
         authorRepository.save(admin);
@@ -136,6 +150,15 @@ public class Application  extends WebMvcConfigurerAdapter {
 
         post1.addComment(comment1);
         postRepository.save(post1);
+
+        Post postN;
+        for(int i = 0; i <= 50; i++) {
+            postN = new Post();
+            postN.setTitle("Hello #" + i);
+            postN.setText("Post text #" + i);
+            post1.setAuthor(admin);
+            postRepository.save(postN);
+        }
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
