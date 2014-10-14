@@ -87,11 +87,14 @@ HATEOASRactive = Ractive.extend({
         if(_data) {
             for(var k in _data) {
                 this.set(k, eval('_data.'+k));
+                //TODO: for CKEditor
+                $('#'+k).val(eval('_data.'+k));
             }
         } else {
             for(var k in this.data) {
                 if(k !== 'rows') {
                     this.set(k, '');
+                    $('#'+k).val('');
                 }
             }
         }
