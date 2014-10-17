@@ -151,6 +151,7 @@ HATEOASRactive = Ractive.extend({
 
             success: function(data) {
                 // Fire update from server
+
             },
 
             error: function(error) {
@@ -369,11 +370,19 @@ HATEOASRactive = Ractive.extend({
             },
 
             get: function(event) {
-                var model = self.get(event.keypath);
+                var url = null;
+
+                if(event.keypath) {
+                    var model = self.get(event.keypath);
+                    url = model._links.self.href;
+                } else {
+                    url = event;
+                }
+
 
                 jQuery.ajax({
                     type: 'GET',
-                    url: model._links.self.href,
+                    url: url,
 
                     success: function(data) {
                         self._bind(data);

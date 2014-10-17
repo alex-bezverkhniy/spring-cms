@@ -7,11 +7,12 @@
             <h1>Manage Posts</h1>
         </div>
         <div layout:fragment="content">
-            <table id="datatable" field-list="title,text" class="table table-striped">
+            <table id="datatable" class="table table-striped">
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Text</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -101,6 +102,7 @@
             <p layout:fragment="custom-footer">This is some footer content from content page 1</p>
             <section layout:fragment="custom-js">
                 <script src="../../../webapp/js/admin/posts.js" th:src="@{../js/admin/posts.js}"></script>
+                <script src="../../../webapp/js/admin/posts.js" th:src="@{../lib/jquery.dataTables.min.js}"></script>
                 <script src="../../../webapp/js/admin/hateoas-datatable.js" th:src="@{../js/admin/hateoas-datatable.js}"></script>
 
             </section>
