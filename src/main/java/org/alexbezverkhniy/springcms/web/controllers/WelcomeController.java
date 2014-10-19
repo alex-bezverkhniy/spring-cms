@@ -34,7 +34,7 @@ public class WelcomeController {
     }
 */
 
-    @RequestMapping("/**.html")
+    @RequestMapping("/**/**.html")
     public String htmlPages(HttpServletRequest request){
         return ControllersUtils.mapHtmlPage(request);
     }

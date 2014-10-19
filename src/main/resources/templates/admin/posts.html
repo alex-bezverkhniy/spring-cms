@@ -22,37 +22,6 @@
 
             <div id="posts"></div>
             <script id="posts-template" type="x-template">
-                <div class="post-list">
-                    {{#page != null}}
-                    <div>
-                        <ul class="pagination">
-                            <li><a href="#" on-click="prevPage">Prev</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#" on-click="nextPage">Next</a></li>
-                        </ul>
-                    </div>
-                    {{/page != null}}
-                    <table class="table table-striped" >
-                        <tbody>
-                        <tr>
-                            <th>Title</th>
-                            <th>Text</th>
-                            <th><span class="glyphicon glyphicon-pencil pull-right"></span></th>
-                        </tr>
-                        {{#rows}}
-                        <tr>
-                            <td>{{title}}</td>
-                            <td>{{text}}</td>
-                            <td><a class="btn btn-default btn-sm pull-right" title="{{_links.self.href}}" on-click="get" href="#formAnchor"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                        </tr>
-                        {{/rows}}
-                        </tbody>
-                    </table>
-                </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Add user
@@ -102,9 +71,6 @@
             <p layout:fragment="custom-footer">This is some footer content from content page 1</p>
             <section layout:fragment="custom-js">
                 <script src="../../../webapp/js/admin/posts.js" th:src="@{../js/admin/posts.js}"></script>
-                <script src="../../../webapp/js/admin/posts.js" th:src="@{../lib/jquery.dataTables.min.js}"></script>
-                <script src="../../../webapp/js/admin/hateoas-datatable.js" th:src="@{../js/admin/hateoas-datatable.js}"></script>
-
             </section>
         </footer>
     </body>

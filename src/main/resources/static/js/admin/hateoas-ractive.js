@@ -446,7 +446,8 @@ HATEOASRactive = Ractive.extend({
                     },
 
                     error: function(error) {
-                        alert('ERROR statusText: ' + error.statusText + ', status: ' + error.status + ', responseText: ' + error.responseText);
+                        //alert('ERROR statusText: ' + error.statusText + ', status: ' + error.status + ', responseText: ' + error.responseText);
+                        console.log('NO associations');
                     }
                 });
             },

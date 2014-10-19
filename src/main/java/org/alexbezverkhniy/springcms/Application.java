@@ -22,7 +22,8 @@ import java.io.IOException;
 import java.util.Date;
 
 @Configuration
-@ComponentScan(basePackages = {"org.alexbezverkhniy.springcms.core.services.security", "org.alexbezverkhniy.springcms.core.repositories", "org.alexbezverkhniy.springcms.web.controllers"})
+@ComponentScan
+//@ComponentScan(basePackages = {"org.alexbezverkhniy.springcms.core.services.security", "org.alexbezverkhniy.springcms.core.repositories", "org.alexbezverkhniy.springcms.web.controllers"})
 @EnableAutoConfiguration
 @EnableJpaRepositories(basePackages = "org.alexbezverkhniy.springcms.core.repositories")
 //@Import(RestDataConfig.class)

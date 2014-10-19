@@ -31,6 +31,10 @@
             sort: 'desc'
         };
 
+        this.run = function(functionName) {
+            return methods[functionName].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        }
+
         var methods = {
             // Refresh ajax request
             refresh: function(e) {
@@ -80,7 +84,7 @@
                 if(settings.searchUrls) {
                     searchPanel = $('<div class="input-group" ></div>');
                     searchPanel.append($('<span class="input-group-addon"><span class="glyphicon glyphicon-filter" title="Filter"></span></span>'));
-                    searchColumnsList = $('<select class="form-control" style="width: 20%;"></select>');
+                    searchColumnsList = $('<select class="form-control" style="width: 10%;"></select>');
                     for(var i = 0; i < settings.searchUrls.length; i++) {
                         searchColumnsList.append($('<option value="' + settings.searchUrls[i].url + '">' + settings.searchUrls[i].title + '</option>'))
                     }
@@ -155,6 +159,7 @@
                         settings.fieldList = settings.fieldList.split(',');
                     }
                 }
+                return self;
             },
 
             show: function(data) {
@@ -165,7 +170,7 @@
 
                     // Add sort panel
                     if(sortPanel != null) {
-                        findSortPanel.append($('<div class="col-lg-4"></div>').append(sortPanel));
+                        findSortPanel.append($('<div class="col-lg-6"></div>').append(sortPanel));
                     }
 
                     // Add find panel

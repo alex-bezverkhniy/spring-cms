@@ -8,32 +8,22 @@
         </div>
         <div layout:fragment="content">
             <p class="lead">This is a paragraph from content page 1</p>
+            <table id="datatable" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Is Account Non Expired</th>
+                    <ht>Is Account Non Locked</ht>
+                    <ht>Is Credentials Non Expired</ht>
+                    <th>Is Enabled</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
             <div id="users"></div>
             <script id="users-template" type="x-template">
-                <div class="user-list">
-                    <table class="table table-striped">
-                        <tbody>
-                        <tr>
-                            <th>User Name</th>
-                            <th>Is Account Non Expired</th>
-                            <th>Is Account Non Locked</th>
-                            <th>Is Credentials Non Expired</th>
-                            <th>Is Enabled</th>
-                            <th><span class="glyphicon glyphicon-pencil pull-right"></span></th>
-                        </tr>
-                        {{#rows}}
-                        <tr>
-                            <td>{{username}}</td>
-                            <td>{{accountNonExpired}}</td>
-                            <td>{{accountNonLocked}}</td>
-                            <td>{{credentialsNonExpired}}</td>
-                            <td>{{enabled}}</td>
-                            <td><a class="btn btn-default btn-sm pull-right" on-click="get" href="#formAnchor"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                        </tr>
-                        {{/rows}}
-                        </tbody>
-                    </table>
-                </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Add user
