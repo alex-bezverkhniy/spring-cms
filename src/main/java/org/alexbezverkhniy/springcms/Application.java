@@ -1,14 +1,8 @@
 package org.alexbezverkhniy.springcms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.alexbezverkhniy.springcms.core.domain.Author;
-import org.alexbezverkhniy.springcms.core.domain.Authority;
-import org.alexbezverkhniy.springcms.core.domain.Comment;
-import org.alexbezverkhniy.springcms.core.domain.Post;
-import org.alexbezverkhniy.springcms.core.repositories.AuthorRepository;
-import org.alexbezverkhniy.springcms.core.repositories.AuthorityRepository;
-import org.alexbezverkhniy.springcms.core.repositories.CommentRepository;
-import org.alexbezverkhniy.springcms.core.repositories.PostRepository;
+import org.alexbezverkhniy.springcms.core.domain.*;
+import org.alexbezverkhniy.springcms.core.repositories.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -66,6 +60,7 @@ public class Application  extends WebMvcConfigurerAdapter {
         CommentRepository commentRepository = context.getBean(CommentRepository.class);
         PostRepository postRepository = context.getBean(PostRepository.class);
         AuthorRepository authorRepository = context.getBean(AuthorRepository.class);
+        CategoryRepository categoryRepository = context.getBean(CategoryRepository.class);
 
         Authority adminRole;
         Authority userRole;
@@ -150,6 +145,21 @@ public class Application  extends WebMvcConfigurerAdapter {
         postRepository.save(post1);
 
         post1.addComment(comment1);
+        postRepository.save(post1);
+
+        Category parentCategory = new Category("Parent", "Parent Category");
+        categoryRepository.save(parentCategory);
+
+        Category category1 = new Category("First", "First child", parentCategory);
+        //category1.addComment(post1);
+        categoryRepository.save(category1);
+
+        Category category2 = new Category("Second", "Second child", parentCategory);
+        //category2.addComment(post1);
+        categoryRepository.save(category2);
+
+
+        post1.addCategory(category1);
         postRepository.save(post1);
 
         Post postN;

@@ -4,7 +4,7 @@
       layout:decorator="admin/layouts/layout">
     <body>
         <div layout:fragment="title">
-            <h1>Manage Posts</h1>
+            <h1>Manage Categories</h1>
         </div>
         <div layout:fragment="content">
             <table id="datatable" class="table table-striped">
@@ -12,17 +12,16 @@
                     <tr>
                         <th>Title</th>
                         <th>Text</th>
-                        <th>Categories</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
 
-            <p class="lead">Posts</p>
+            <p class="lead">Categories</p>
 
-            <div id="posts"></div>
-            <script id="posts-template" type="x-template">
+            <div id="categories"></div>
+            <script id="categories-template" type="x-template">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Add user
@@ -42,32 +41,18 @@
                                 <textarea id="text" class="form-control" rows="3" value="{{text}}"></textarea>
                             </div>
 
+<!--
                             <div class="form-group">
-                                <label form="author">Author:</label>
+                                <label form="categories">Posts list:</label>
                                 <div>
-                                    <select name="author" decorator="multiselect: 'author'" id="author" class="multiselect" title-key="username" style="width: 80px;">
+                                    <select name="posts" decorator="multiselect: 'posts'" id="posts" class="multiselect" multiple="multiple" title-key="title">
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label form="categories">Categories list:</label>
-                                <div>
-                                    <select name="categories" decorator="multiselect: 'categories'" id="categories" class="multiselect" multiple="multiple" title-key="title">
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label form="comments">Comments list:</label>
-                                <div>
-                                    <select name="comments" decorator="multiselect: 'comments'" id="comments" class="multiselect" multiple="multiple" title-key="title">
-                                    </select>
-                                </div>
-                            </div>
-                            <button type="button" id="saveBtn" class="btn btn-default">Submit post</button>
+-->
+                            <button type="submit" class="btn btn-default">Submit category</button>
                             {{#_links.self.href}}
-                            <button type="button" class="btn btn-default" on-click="delete">Remove post</button>
+                            <button type="button" class="btn btn-default" on-click="delete">Remove category</button>
                             {{/_links.self.href}}
                         </form>
                     </div>
@@ -78,7 +63,7 @@
         <footer>
             <p layout:fragment="custom-footer">This is some footer content from content page 1</p>
             <section layout:fragment="custom-js">
-                <script src="../../../webapp/js/admin/posts.js" th:src="@{../js/admin/posts.js}"></script>
+                <script src="../../../webapp/js/admin/categories.js" th:src="@{../js/admin/categories.js}"></script>
             </section>
         </footer>
     </body>

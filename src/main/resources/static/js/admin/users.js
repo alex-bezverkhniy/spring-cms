@@ -22,7 +22,21 @@ $(document).ready(function(){
         myRactive.fire('get', url);
 
     }
-    var hdatatable = $('#datatable').hdatatable({url: '/rest/users', pageSize: 5, selectCallback: edit, searchUrls: [{title: 'By title', url: '/rest/users/search/findByTitleLikeIgnoreCase?title='}, {title: 'By text', url: '/rest/users/search/findByTextLikeIgnoreCase?text='}], columns: [{name: 'title', title: 'Title'},{name: 'text', title: 'Text'}]});
+    var hdatatable = $('#datatable').hdatatable({
+        url: '/rest/users',
+        pageSize: 5,
+        selectCallback: edit,
+        searchUrls: [
+            {title: 'By Username', url: '/rest/users/search/findByUsernameLikeIgnoreCase?name='}
+        ],
+        columns: [
+            {name: 'username', title: 'User Name'},
+            {name: 'accountNonExpired', title: 'Account Non Expired'},
+            {name: 'accountNonLocked', title: 'Account Non Locked'},
+            {name: 'credentialsNonExpired', title: 'Credentials Non Expired'},
+            {name: 'enabled', title: 'Enabled'}
+        ]
+    });
     myRactive.on('init', function() {
         hdatatable.run('refresh');
         window.scrollTo(0, 0);
@@ -52,8 +66,8 @@ var myRactive = new HATEOASRactive({
 
 $(document).ready(function(){
     $('#users-template').hide();
-    myRactive.restURL = '/users';
-    myRactive.modelListName = 'authors';
+    myRactive.restURL = '/rest/users';
+    myRactive.modelListName = 'users';
     myRactive.fire( 'init' );
 
 });

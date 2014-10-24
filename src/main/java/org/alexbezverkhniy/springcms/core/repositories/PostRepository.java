@@ -12,7 +12,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * Created by bezverkhniy_10534 on 11/09/2014.
  */
 @RepositoryRestResource(path = "posts", itemResourceRel = "posts")
-public interface PostRepository  extends PagingAndSortingRepository<Post, Long>, CrudRepository<Post, Long> {
+public interface PostRepository extends PagingAndSortingRepository<Post, Long>, CrudRepository<Post, Long> {
     public Page<Post> findByTitleLikeIgnoreCase(@Param(value = "title")String title, Pageable p);
     public Page<Post> findByTextLikeIgnoreCase(@Param(value = "text")String text, Pageable p);
 }

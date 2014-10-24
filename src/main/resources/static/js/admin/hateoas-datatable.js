@@ -84,7 +84,7 @@
                 if(settings.searchUrls) {
                     searchPanel = $('<div class="input-group" ></div>');
                     searchPanel.append($('<span class="input-group-addon"><span class="glyphicon glyphicon-filter" title="Filter"></span></span>'));
-                    searchColumnsList = $('<select class="form-control" style="width: 10%;"></select>');
+                    searchColumnsList = $('<select class="form-control" style="width: 20%;"></select>');
                     for(var i = 0; i < settings.searchUrls.length; i++) {
                         searchColumnsList.append($('<option value="' + settings.searchUrls[i].url + '">' + settings.searchUrls[i].title + '</option>'))
                     }
@@ -269,14 +269,18 @@
                                         if(settings.columns) {
                                             for(var c = 0; c < settings.columns.length; c++) {
                                                 var kr = settings.columns[c].name;
-                                                if(typeof rowData[kr] !== 'object' && rowData[kr] ) {
+                                                if(typeof rowData[kr] !== 'object' && typeof rowData[kr] != 'undefined' && rowData[kr] != null) {
                                                     row.append($('<td>' + rowData[kr] + '</td>'));
+                                                } else {
+                                                    row.append($('<td>&nbsp;</td>'));
                                                 }
                                             }
                                         } else {
                                             for(var kr in rowData) {
-                                                if(typeof rowData[kr] !== 'object' && rowData[kr] ) {
+                                                if(typeof rowData[kr] !== 'object' && typeof rowData[kr] != 'undefined' && rowData[kr] != null ) {
                                                     row.append($('<td>' + rowData[kr] + '</td>'));
+                                                } else {
+                                                    row.append($('<td>&nbsp;</td>'));
                                                 }
                                             }
                                         }

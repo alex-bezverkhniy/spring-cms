@@ -13,8 +13,13 @@ multiselectDec = function(node, id){
             selectedList = node.data[id.substring(0, id.length-1)];
         }
 
+        // No selected data
+        if(selectedList == undefined) {
+            selectedList = new Array();
+        }
+
         allList = node.data[id+'All'];
-        // Try to find data
+        // Try to find All data
         if(allList == undefined) {
             allList = node.data[id+'sAll'];
         }
@@ -22,18 +27,28 @@ multiselectDec = function(node, id){
 
     if(node.cleanIt || node.data == undefined) {
         selectedList = new Array();
-        allList = new Array();
+        //allList = new Array();
     }
 
     if(allList !== undefined && selectedList !== undefined) {
         var dataList = new Array();
 
         var titleKey = '';
+
         if(node[0]) {
             titleKey = node[0].attributes['title-key'].nodeValue;
         }
+
         if(titleKey == undefined) {
             titleKey = 0;
+        }
+
+        // If select type is not 'multiple'
+        if(typeof node[0] != 'undefined' && typeof node[0].attributes['multiple'] == 'undefined' && allList[0][titleKey] != 'None selected') {
+            var option = new Object();
+            option[titleKey] = 'None selected';
+            option['_links'] = {'self' : {'href' : ''}};
+            allList.splice(0,0,option);
         }
 
         for(i in allList) {
@@ -53,18 +68,16 @@ multiselectDec = function(node, id){
             }
         }
 
-
         ml.multiselect('setOptions', {
             enableFiltering: true,
             includeSelectAllOption: true,
-            onChange: function(event) {
+            onChange: function(option, checked) {
                 multiselectDec.selectedVal = new Array();
                 multiselectDec.selectedVal[id] = ml.val();
             }
         });
 
         ml.multiselect('rebuild');
-
     }
 
     return {
@@ -173,7 +186,7 @@ HATEOASRactive = Ractive.extend({
         var self = this;
 
         for(var k in model) {
-            if(k != '_links') {
+            if(k != '_links' && k != 'page') {
                 // find subresource
                 if(model[k] instanceof  Array || model[k] instanceof  Object) {
                     var url = model._links.self.href + '/' + k;
@@ -187,8 +200,9 @@ HATEOASRactive = Ractive.extend({
                     if(self.decorators.multiselect.selectedVal && self.decorators.multiselect.selectedVal[k]) {
                         self.saveSubResources(url, self.decorators.multiselect.selectedVal[k], method);
                     // if user removed all items
-                    } else if(self.decorators.multiselect.selectedVal && self.data[k] != null){
-                        self.saveSubResources(url, self.decorators.multiselect.selectedVal[k], method);
+                    } else if(self.decorators.multiselect.selectedVal && typeof self.decorators.multiselect.selectedVal[k] != 'undefined' && self.decorators.multiselect.selectedVal[k] == null && self.data[k] != null){
+                        //self.saveSubResources(url, self.data[k][0]._links.self.href, method);
+                        self.saveSubResources(url, '', method);
                     }
                 }
             }
@@ -201,12 +215,18 @@ HATEOASRactive = Ractive.extend({
             }
         }
 
+        var url = self.restURL;
+        if(method == 'PUT') {
+            url = model._links.self.href;
+        }
+
         jQuery.ajax({
             type: method,
-            url: model._links.self.href,
+            url: url,
             dataType: 'json',
             headers: {
                 'Accept': 'application/json',
+                'charset': 'UTF-8',
                 'Content-Type': 'application/json'
             },
             contentType: "application/json",
@@ -265,6 +285,20 @@ HATEOASRactive = Ractive.extend({
                     type: 'GET',
                     url: self.restURL,
                     success: function(data) {
+                        // TODO: will add call of get_all_association
+                        var obj0 = data._embedded[self.modelListName][0];
+                        if(obj0._links) {
+                            for(var k in obj0._links) {
+                                if(k != 'self') {
+                                    var u = self.restURL.replace(self.modelListName, k);
+                                    if(u.indexOf('s', u.length - 's'.length) == -1) {
+                                        u = u+'s';
+                                    }
+                                    self.fire('get_all_association', u);
+                                }
+                            }
+                        }
+
                         var varModelName = '';
                         if(self.modelListName) {
                             varModelName = self.modelListName
@@ -293,7 +327,9 @@ HATEOASRactive = Ractive.extend({
                 var model;
 
                 // stop the page reloading
-                event.original.preventDefault();
+                if(event) {
+                    event.original.preventDefault();
+                }
                 // Unbind data from form
                 model = self.data;//self._unbind();
 
@@ -301,14 +337,15 @@ HATEOASRactive = Ractive.extend({
                 // Removing arrays
                 for(var k in model) {
                     if(model[k] instanceof  Array) {
-                        if(k === 'rows' || k.endsWith('All')) {
+                        if(k === 'rows' || k.endsWith('All') ) {
                             delete model[k];
                         }
                     }
                 }
 
+                var isPut = (model._links.self.href.indexOf('}', model._links.self.href.length - '}'.length) == -1);
                 // Update or Create
-                if(model._links && model._links.self && model._links.self.href) {
+                if(model._links && model._links.self && model._links.self.href, isPut) {
                     // fire an event - update the model to a server
                     this.fire('put', model);
                 } else {
@@ -423,8 +460,9 @@ HATEOASRactive = Ractive.extend({
                                 if(data._embedded[k].length > 0) {
                                     // Get association data - full list
                                     //http://localhost:8080/authorities/2
-                                    var u = data._embedded[k][0]._links.self.href;
-                                    u = u.substring(0, u.indexOf(k)+k.length);
+                                    //var u = data._embedded[k][0]._links.self.href;
+                                    //u = u.substring(0, u.indexOf(k)+k.length);
+                                    var u = self.restURL.replace(self.modelListName, k);
                                     self.fire('get_all_association', u);
                                 }
                             }
@@ -433,7 +471,8 @@ HATEOASRactive = Ractive.extend({
                             var key = url.substring(url.lastIndexOf('/')+1, url.length);
                             //self.set(key, new Array());
                             self.set(key, data);
-                            var u = u = url.substring(0, url.indexOf(self.restURL))+'/'+key;
+                            var u = self.restURL.replace(self.modelListName, key);
+                            //var u = url.substring(0, url.indexOf(self.restURL))+'/'+key;
                             if(data._links){
                                 u = u +'s';
                             }
@@ -448,6 +487,12 @@ HATEOASRactive = Ractive.extend({
                     error: function(error) {
                         //alert('ERROR statusText: ' + error.statusText + ', status: ' + error.status + ', responseText: ' + error.responseText);
                         console.log('NO associations');
+                        //Try to load all associations
+                        // Clean previous data
+                        var key = url.substring(url.lastIndexOf('/')+1, url.length);
+                        var u = self.restURL.replace(self.modelListName, key);
+                        u = u +'s';
+                        self.fire('get_all_association', u);
                     }
                 });
             },
@@ -463,8 +508,10 @@ HATEOASRactive = Ractive.extend({
                     success: function(data) {
                         if(data._embedded){
                             for(var k in data._embedded) {
+                                if(k.indexOf('s', k.length - 's'.length) == -1) {
+                                    k = k+'s';
+                                }
                                 self.set(k+'All', data._embedded[k]);
-
                                 self.refreshMultiselect(k, false);
 
                             }
